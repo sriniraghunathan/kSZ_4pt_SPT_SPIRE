@@ -1,0 +1,92 @@
+#Table 2 of https://arxiv.org/pdf/1807.06209.pdf. Penultimate column: TT,TE,EE+lowE+lensing
+#cosmology
+T_cmb = 2.7255 #2.73
+As = 2.0989031673191437e-09 ##np.exp(3.044)/1e10
+uK = 1
+
+#change the below params based on Planck Planck 2018 cosmology: currently the values come from http://camb.readthedocs.io/en/latest/CAMBdemo.html
+#the cosmological paramters that are being constrained come from Joel Meyers' numbers from https://cmb-s4.org/wiki/index.php/N_eff_Forecasting_Comparison_with_DRAFT_ILC
+h = 0.6736
+thetastar = 0.0104092
+ombh2 = 0.02237
+omch2=  0.1200
+neff=3.046 ##3.046
+omk=0
+tau=0.0544
+ns= 0.9649
+r=0.0
+ws = -1.
+YHe = None
+Alens = 1.
+Aphiphi = 1.
+
+mnu= 0.06
+num_nu_massive = 1
+
+#ksz
+Aksz = 1.
+Aksz_h = 1.
+alphaksz_h = 0.
+zmid = 7.69 ##8.
+zdur = 4.
+
+#pivots
+pivot_scalar = 0.05
+pivot_tensor = 0.05
+
+# CAMB files
+##lens_potential_accuracy=0 ##1 #1 - self.set_nonlinear_lensing(True)
+##min_l_limit=2
+##max_l_limit= 7000 #7000 ##3000 ##5000 ##2502
+##max_l_tensor = 7000
+##max_eta_k = 25000 #50000 ###25000.0
+##max_eta_k_tensor = 7000 #12000 #3000.0
+# CAMB files
+lens_potential_accuracy=1 #1 - self.set_nonlinear_lensing(True)
+min_l_limit=2
+max_l_limit= 7000 ##3000 ##5000 ##2502
+max_l_tensor = 600 ##1500
+max_eta_k = 50000 ###25000.0
+max_eta_k_tensor = 12000 #3000.0
+
+ 
+
+#experiment
+#fsky = 0.7
+#exp_beam = 7.
+#delta_T = 45.
+#delta_P = None
+
+#Increase accuracy_boost to decrease time steps, use more k values,  etc.
+#Decrease to speed up at cost of worse accuracy. Suggest 0.8 to 3.
+AccuracyBoost          = 1 ##2 ##2 ##3
+
+#Larger to keep more terms in the hierarchy evolution. 
+lAccuracyBoost        = 1 ##2 ## ##3
+
+#Increase to use more C_l values for interpolation.
+#Increasing a bit will improve the polarization accuracy at l up to 200 -
+#interpolation errors may be up to 3%
+#Decrease to speed up non-flat models a bit
+lSampleBoost          = 1 ##2 ##1 ##2
+
+#Whether you are bothered about polarization. 
+accurate_polarization   = 1
+
+#Whether you are bothered about percent accuracy on EE from reionization
+accurate_reionization   = 1
+
+#whether or not to include neutrinos in the tensor evolution equations
+do_tensor_neutrinos     = 0
+
+#Whether to turn off small-scale late time radiation hierarchies (save time,v. accurate)
+do_late_rad_truncation   = 0 ##1 ##1
+
+#Computation parameters
+#if number_of_threads=0 assigned automatically
+number_of_threads       = 0
+
+#20210423: galdust fitting
+Tdust=20. #https://pysm3.readthedocs.io/en/latest/models.html#dust
+betadust=1.54 #https://pysm3.readthedocs.io/en/latest/models.html#dust
+
