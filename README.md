@@ -1,6 +1,6 @@
 # kSZ 4pt analysis using SPT x SPIRE
 ## Paper:
-* Raghunathan S., SPT-3G and SPTpol Collaboration 2024; arXiv:[2403.xxxxx](https://arxiv.org/abs/2403.xxxxx).
+* Raghunathan S., SPT-3G and SPTpol Collaboration 2024; arXiv:[2403.02337](https://arxiv.org/abs/2403.02337).
 
 ## Overview:
 * This work uses a quadratic estimator, similar to CMB-lensing, to reconstruct the velocity-induced correlations on large-scales of the small-scale kSZ signal.
