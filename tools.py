@@ -253,4 +253,69 @@ def get_planck_zmid_from_tau(tau=0.0544):
 
     return z_re
 
+def get_kbar_filter(tmpels, tmpwls, elmin = 100., elmax = 7000., ell_bins = 500, tmpbl = None, tmpfl = None):
 
+    """
+    \begin{eqnarray}    
+    \bar{F} & = & \int \frac{ W_{\ell}^{2}\  B^2_{\ell, {\rm eff}}\ F_{\ell}\ d^{2}{\ell}}{(2\pi)^{2}} \\
+            & = & \int \frac{W_{\ell}^{2}B^2_{\ell, {\rm eff}}\ F_{\ell}\ (2 \pi) \ell d{\ell}}{(2\pi)^{2}} \\
+            & = & \int \left( \frac{\ell} {\ell} \right) \frac{W_{\ell}^{2}B^2_{\ell, {\rm eff}}\ F_{\ell}\ \ell d{\ell}}{(2\pi)}
+    \end{eqnarray*}    
+    and setting $\dfrac{d\ell}{\ell} = d{\rm ln \ell}$, we obtain 
+    \begin{eqnarray}    
+    \bar{F} & = & \int \left( \frac{\ell^{2}} {2 \pi} \right) W^{2}_{\ell}\ B^2_{\ell, {\rm eff}}\ F_{\ell}\ d {\rm ln} \ell
+    \end{eqnarray}    
+
+    returns Fbar to be deconvolved from $\hat{C}_{L}^{KK}$.
+
+    Parameters
+    ----------
+    tmpels: array
+        Multipoles
+    tmpwls: array
+        Weights as fn(tmpels)
+    elmin: float
+        Minimum multipole for the integration
+        Default is 100. Some low multipole value.
+    elmax: float
+        Maxmimum multipole for the integration
+        Default is 7000. Some high multipole value.
+    ell_bins: float
+        Bin width
+        Default is 500. 
+    tmpbl: array
+        Beam Bl as fn(tmpels)
+        Default is None.
+    tmpfl: float
+        Filter transfer function as fn(tmpels)
+        Default is None.
+
+    Returns
+    -------
+    kbar_filter: float
+        Fbar
+    """
+
+    if tmpbl is None:
+        tmpbl = np.ones_like(tmpels)
+
+    if tmpfl is None:
+        tmpfl = np.ones_like(tmpels)
+    else:
+        tmpfl = tmpfl**0.5
+
+    tmpwls = tmpwls * tmpbl * tmpfl
+
+    def integrand(ln_ell):
+        ell = np.exp(ln_ell)
+        wl = np.interp(ell, tmpels, tmpwls)
+        if (0):
+            plot(tmpels, tmpwls, lw = 2.)
+            plot(ell, wl, color = 'orangered')
+            show(); sys.exit()
+        return (ell**2./2/np.pi) * wl**2
+
+    ln_ells   = np.linspace(np.log(elmin), np.log(elmax), ell_bins)
+    kbar_filter = integrate.simps( integrand(ln_ells), x = ln_ells )
+    
+    return kbar_filter
